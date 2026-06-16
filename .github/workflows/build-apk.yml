@@ -16,7 +16,7 @@ jobs:
       - name: Node.js einrichten
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: pnpm installieren
         uses: pnpm/action-setup@v4
@@ -42,7 +42,7 @@ jobs:
 
       - name: Capacitor installieren
         working-directory: "Erste-Hilfe-Lern-App Konzept (1)"
-        run: pnpm add @capacitor/core @capacitor/cli @capacitor/android
+        run: pnpm add --ignore-workspace-root-check @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Capacitor initialisieren
         working-directory: "Erste-Hilfe-Lern-App Konzept (1)"
