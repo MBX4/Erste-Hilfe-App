@@ -33,28 +33,32 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Dependencies installieren
+        working-directory: "Erste-Hilfe-Lern-App Konzept (1)"
         run: pnpm install
 
       - name: App bauen (Web)
+        working-directory: "Erste-Hilfe-Lern-App Konzept (1)"
         run: pnpm build
 
       - name: Capacitor installieren
-        run: |
-          pnpm add @capacitor/core @capacitor/cli @capacitor/android
+        working-directory: "Erste-Hilfe-Lern-App Konzept (1)"
+        run: pnpm add @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Capacitor initialisieren
-        run: |
-          npx cap init "Erste Hilfe Lern App" "com.erstehilfe.lernapp" --web-dir=dist
+        working-directory: "Erste-Hilfe-Lern-App Konzept (1)"
+        run: npx cap init "Erste Hilfe Lern App" "com.erstehilfe.lernapp" --web-dir=dist
 
       - name: Android Plattform hinzufügen
+        working-directory: "Erste-Hilfe-Lern-App Konzept (1)"
         run: npx cap add android
 
       - name: Web-Code in Android kopieren
+        working-directory: "Erste-Hilfe-Lern-App Konzept (1)"
         run: npx cap sync android
 
       - name: APK bauen
+        working-directory: "Erste-Hilfe-Lern-App Konzept (1)/android"
         run: |
-          cd android
           chmod +x gradlew
           ./gradlew assembleDebug
 
@@ -62,5 +66,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: erste-hilfe-app
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: "Erste-Hilfe-Lern-App Konzept (1)/android/app/build/outputs/apk/debug/app-debug.apk"
           retention-days: 30
