@@ -42,7 +42,9 @@ jobs:
 
       - name: Capacitor installieren
         working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
-        run: npm install @capacitor/core @capacitor/cli @capacitor/android
+        run: |
+          echo "ignore-workspace-root-check=true" >> .npmrc
+          pnpm add @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Capacitor initialisieren
         working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
