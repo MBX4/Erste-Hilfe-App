@@ -33,32 +33,15 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Dependencies installieren
-        run: pnpm install --ignore-workspace-root-check
+        run: pnpm install --include-workspace-root
 
       - name: App bauen (Web)
         run: pnpm build
 
       - name: Capacitor installieren
-        run: pnpm add --ignore-workspace-root-check @capacitor/core @capacitor/cli @capacitor/android
+        run: pnpm add --include-workspace-root @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Capacitor initialisieren
         run: npx cap init "Erste Hilfe Lern App" "com.erstehilfe.lernapp" --web-dir=dist
 
-      - name: Android Plattform hinzufügen
-        run: npx cap add android
-
-      - name: Web-Code in Android kopieren
-        run: npx cap sync android
-
-      - name: APK bauen
-        working-directory: android
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug
-
-      - name: APK hochladen
-        uses: actions/upload-artifact@v4
-        with:
-          name: erste-hilfe-app-v2
-          path: android/app/build/outputs/apk/debug/app-debug.apk
-          retention-days: 30
+      - name: Android Plattform
