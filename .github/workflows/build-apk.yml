@@ -42,7 +42,7 @@ jobs:
 
       - name: Capacitor installieren
         working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
-        run: pnpm add --include-workspace-root @capacitor/core @capacitor/cli @capacitor/android
+        run: npm install @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Capacitor initialisieren
         working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
