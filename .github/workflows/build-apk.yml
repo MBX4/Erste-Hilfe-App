@@ -32,34 +32,56 @@ jobs:
       - name: Android SDK einrichten
         uses: android-actions/setup-android@v3
 
+      - name: ImageMagick installieren
+        run: sudo apt-get install -y imagemagick
+
       - name: Dependencies installieren
-        working-directory: "RescueReady-v2/rescueready"
+        working-directory: "RescueReady-v3/rescueready"
         run: pnpm install
 
       - name: App bauen (Web)
-        working-directory: "RescueReady-v2/rescueready"
+        working-directory: "RescueReady-v3/rescueready"
         run: pnpm build
 
       - name: Capacitor installieren
-        working-directory: "RescueReady-v2/rescueready"
+        working-directory: "RescueReady-v3/rescueready"
         run: |
           echo "ignore-workspace-root-check=true" >> .npmrc
           pnpm add @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Capacitor initialisieren
-        working-directory: "RescueReady-v2/rescueready"
+        working-directory: "RescueReady-v3/rescueready"
         run: npx cap init "RescueReady" "com.rescueready.app" --web-dir=dist
 
       - name: Android Plattform hinzufügen
-        working-directory: "RescueReady-v2/rescueready"
+        working-directory: "RescueReady-v3/rescueready"
         run: npx cap add android
 
       - name: Web-Code in Android kopieren
-        working-directory: "RescueReady-v2/rescueready"
+        working-directory: "RescueReady-v3/rescueready"
         run: npx cap sync android
 
+      - name: App-Icon setzen
+        working-directory: "RescueReady-v3/rescueready"
+        run: |
+          ICON_SRC="public/logo.png"
+          RES="android/app/src/main/res"
+          declare -A SIZES=(
+            ["mipmap-mdpi"]=48
+            ["mipmap-hdpi"]=72
+            ["mipmap-xhdpi"]=96
+            ["mipmap-xxhdpi"]=144
+            ["mipmap-xxxhdpi"]=192
+          )
+          for folder in "${!SIZES[@]}"; do
+            size="${SIZES[$folder]}"
+            mkdir -p "$RES/$folder"
+            convert "$ICON_SRC" -resize "${size}x${size}" "$RES/$folder/ic_launcher.png"
+            convert "$ICON_SRC" -resize "${size}x${size}" "$RES/$folder/ic_launcher_round.png"
+          done
+
       - name: APK bauen
-        working-directory: "RescueReady-v2/rescueready/android"
+        working-directory: "RescueReady-v3/rescueready/android"
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
@@ -68,5 +90,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RescueReady
-          path: "RescueReady-v2/rescueready/android/app/build/outputs/apk/debug/app-debug.apk"
+          path: "RescueReady-v3/rescueready/android/app/build/outputs/apk/debug/app-debug.apk"
           retention-days: 30
