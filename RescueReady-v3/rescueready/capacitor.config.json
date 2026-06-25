@@ -1,0 +1,6 @@
+{
+  "appId": "com.rescueready.app",
+  "appName": "RescueReady",
+  "webDir": "dist",
+  "plugins": {}
+}
