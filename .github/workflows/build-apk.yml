@@ -33,27 +33,33 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Dependencies installieren
+        working-directory: "RescueReady-v2/rescueready"
         run: pnpm install
 
       - name: App bauen (Web)
+        working-directory: "RescueReady-v2/rescueready"
         run: pnpm build
 
       - name: Capacitor installieren
+        working-directory: "RescueReady-v2/rescueready"
         run: |
           echo "ignore-workspace-root-check=true" >> .npmrc
           pnpm add @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Capacitor initialisieren
+        working-directory: "RescueReady-v2/rescueready"
         run: npx cap init "RescueReady" "com.rescueready.app" --web-dir=dist
 
       - name: Android Plattform hinzufügen
+        working-directory: "RescueReady-v2/rescueready"
         run: npx cap add android
 
       - name: Web-Code in Android kopieren
+        working-directory: "RescueReady-v2/rescueready"
         run: npx cap sync android
 
       - name: APK bauen
-        working-directory: android
+        working-directory: "RescueReady-v2/rescueready/android"
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
@@ -62,5 +68,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RescueReady
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: "RescueReady-v2/rescueready/android/app/build/outputs/apk/debug/app-debug.apk"
           retention-days: 30
