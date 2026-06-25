@@ -33,33 +33,27 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Dependencies installieren
-        working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
         run: pnpm install
 
       - name: App bauen (Web)
-        working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
         run: pnpm build
 
       - name: Capacitor installieren
-        working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
         run: |
           echo "ignore-workspace-root-check=true" >> .npmrc
           pnpm add @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Capacitor initialisieren
-        working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
-        run: npx cap init "Erste Hilfe Lern App" "com.erstehilfe.lernapp" --web-dir=dist
+        run: npx cap init "RescueReady" "com.rescueready.app" --web-dir=dist
 
       - name: Android Plattform hinzufügen
-        working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
         run: npx cap add android
 
       - name: Web-Code in Android kopieren
-        working-directory: "Erste-Hilfe-Lern-App Konzept (2)"
         run: npx cap sync android
 
       - name: APK bauen
-        working-directory: "Erste-Hilfe-Lern-App Konzept (2)/android"
+        working-directory: android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
@@ -67,6 +61,6 @@ jobs:
       - name: APK hochladen
         uses: actions/upload-artifact@v4
         with:
-          name: erste-hilfe-app-v2
-          path: "Erste-Hilfe-Lern-App Konzept (2)/android/app/build/outputs/apk/debug/app-debug.apk"
+          name: RescueReady
+          path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
